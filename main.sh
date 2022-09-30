@@ -72,20 +72,19 @@ else
 fi
 #exit 0
 BASEDIR=/boot/config/UnraidDockerManager
+BUILD_DIR="out/arch-$TOINSTALL"
 #  copy base
-if [ ! -d "out/arch-$TOINSTALL" ]; then
-	cp -r arch-base out/arch-$TOINSTALL
+if [ ! -d "$BUILD_DIR" ]; then
+	cp -r arch-base $BUILD_DIR
 else
-	cp arch-base/build/root/install.sh out/arch-$TOINSTALL/build/root/
+	cp arch-base/build/root/install.sh $BUILD_DIR/build/root/
 fi
 cp base.xml out/$TOINSTALL.xml
 
-# sniff pkgbuild for exec path
+# Get PKGBUILD 
 if [ -z $isAur ]; then
-	echo "Replacing in pacman"
 	PKGBUILD=$(curl -s "https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/$TOINSTALL/trunk/PKGBUILD")
 else
-	echo "Replacing in yay"
 	PKGBUILD=$(curl -s "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=$TOINSTALL") 
 fi	
 
@@ -94,23 +93,24 @@ fi
 
 
 
-
+# Get default execpath
 EXEC_PATH=$(echo "$PKGBUILD" | egrep "*ln -s*" | grep "/usr/bin" | xargs |cut -d ' ' -f4  | sed s/\$pkgdir// | sed 's/\$pkgname//' | sed 's/\${pkgdir}//' | sed 's/\${pkgname}//' | sed 's/\/\//\//')
 echo "Exec path should  be $EXEC_PATH"
 
+# Get favicon of upstream url
 ICONURL=$(echo "$PKGBUILD" | grep -m1 "url" | sed s/url=// |cut -c2- | rev | cut -c2- | rev | sed -r 's#([^/])/[^/].*#\1#')/favicon.ico
 echo "ICONURL=$ICONURL"
 
-curl -o out/arch-$TOINSTALL/config/nobody/novnc-16x16.png "$ICONURL"
+curl -o $BUILD_DIR/config/nobody/novnc-16x16.png "$ICONURL"
 echo a
-sed -i -e "s/BASE_APPNAME/$TOINSTALL/g" out/arch-$TOINSTALL/build/root/install.sh
+sed -i -e "s/BASE_APPNAME/$TOINSTALL/g" $BUILD_DIR/build/root/install.sh
 echo b
-sed -i -e "s/PACMAN_PKG/$PACMAN_PKG/g" out/arch-$TOINSTALL/build/root/install.sh
+sed -i -e "s/PACMAN_PKG/$PACMAN_PKG/g" $BUILD_DIR/build/root/install.sh
 echo c
-sed -i -e "s/YAY_PKG/$YAY_PKG/g" out/arch-$TOINSTALL/build/root/install.sh
+sed -i -e "s/YAY_PKG/$YAY_PKG/g" $BUILD_DIR/build/root/install.sh
 # use | as delimeter as EXEC_PATH contains '/'
 echo d
-sed -i -e "s|EXEC_PATH|$EXEC_PATH|g" out/arch-$TOINSTALL/build/root/install.sh
+sed -i -e "s|EXEC_PATH|$EXEC_PATH|g" $BUILD_DIR/build/root/install.sh
 NEXTPORT=`expr  $(cat ports) + 1`
 
 # Need to change  base xml to put registry felix/
@@ -122,14 +122,14 @@ echo g
 sed -i -e "s|BASE_ICON|$ICONURL|g" out/$TOINSTALL.xml
 # keep track of used docker ports in list and set them accordingly in template file
 
-cd out/arch-$TOINSTALL
+cd $BUILD_DIR
 
 docker build -t felix/$TOINSTALL .
 # Maybe omit the run command and just past the xml?
 # docker run -d -p 5900:5900 -p 6080:6080 --name=$1 --security-opt seccomp=unconfined -v /mnt/user/appdata/data:/data -v /mnt/user/appdata/felix-$1:/config -v /etc/localtime:/etc/localtime:ro -e WEBPAGE_TITLE=$1 -e VNC_PASSWORD=mypassword -e UMASK=000 -e PUID=99 -e PGID=100 felix/$1
 
-cd ../../
+cd $BASEDIR
 
 cp out/$TOINSTALL.xml /boot/config/plugins/dockerMan/templates-user/my-felix-$TOINSTALL.xml
 echo $NEXTPORT > ports
-#rm -r out/*
+rm -r out/*

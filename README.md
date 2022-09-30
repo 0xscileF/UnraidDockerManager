@@ -1,20 +1,27 @@
 # UnraidDockerManager
-Makes specified Application available as "remoteApp" on Unraid  Host by creating a DockerImage with vnc Acces
+### Makes specified Application available as "remoteApp" on Unraid  Host by creating a DockerImage with vnc Acces
 
 
 
+#
 Uses PKGBUILD entries to
 - set AutoStartPaths accordingly
-- pulls default icon
+- set default icon
 
 Available Applications:
 Arch (Core/Extra/Community) 
 
-Tested with:
-Ghidra (Community)
-Firefox (Extra)
-intellij-idea-ce  (Community)
+### Tested with:
+- Ghidra (Community) 
+- Firefox (Extra) 
+- intellij-idea-ce  (Community)
 
+# WARNING:
+- ## This is a first draft development version
+
+- ## Use at your own risk
+
+#
 
 # Usage Unraid
 ```
@@ -42,8 +49,8 @@ intellij-idea-ue-eap
 intellij-idea-ce-ea
 ```
 
-# Based on bin-hex/arch-int-gui
-[Base Image](https://github.com/binhex/arch-int-gui)
+# Based on bin-hex/pyCharm
+[Base Image](https://github.com/binhex/arch-pycharm)
 
 
 [bin-hex](https://github.com/binhex/)

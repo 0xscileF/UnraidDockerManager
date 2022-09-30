@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Containers>
+  <TemplateURL>https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/BASE_APPNAME.xml</TemplateURL>
+  <Beta>False</Beta>
+  <Category>Productivity: Tools:</Category>
+  <Name>felix-BASE_APPNAME</Name>
+  <Description>
+    [b]Description[/b][br]
+    BASE_APPNAME is an Integrated Development Environment (IDE) used in computer programming, specifically for the Python language. It is developed by the Czech company JetBrains.[2] It provides code analysis, a graphical debugger, an integrated unit tester, integration with version control systems (VCSes), and supports web development with Django.[br][br]
+    [b]Configuration[/b][br]
+    [b]/config[/b] This is where the application will store its configuration files, database and logs etc.[br][br]
+    [b]Documentation[/b][br]
+    https://github.com/binhex/documentation[br][br]
+  </Description>
+  <Overview>
+    BASE_APPNAME is an Integrated Development Environment (IDE) used in computer programming, specifically for the Python language. It is developed by the Czech company JetBrains.[2] It provides code analysis, a graphical debugger, an integrated unit tester, integration with version control systems (VCSes), and supports web development with Django.
+  </Overview>
+  <Support>https://forums.lime-technology.com/topic/60734-support-binhex-BASE_APPNAME/</Support>
+  <ReadMe>https://github.com/binhex/documentation</ReadMe>
+  <Registry>https://registry.hub.docker.com/r/felix/arch-BASE_APPNAME/</Registry>
+  <GitHub>https://github.com/binhex/arch-BASE_APPNAME</GitHub>
+  <Repository>felix/BASE_APPNAME</Repository>
+  <Project>https://www.jetbrains.com/BASE_APPNAME/</Project>
+  <BindTime>true</BindTime>
+  <Privileged>false</Privileged>
+  <Networking>
+    <Mode>bridge</Mode>
+    <Publish>
+      <Port>
+        <HostPort>BASE_PORT</HostPort>
+        <ContainerPort>6080</ContainerPort>
+        <Protocol>tcp</Protocol>
+      </Port>
+    </Publish>
+  </Networking>
+  <Environment>
+    <Variable>
+      <Name>WEBPAGE_TITLE</Name>
+      <Value>BASE_APPNAME</Value>
+    </Variable>
+    <Variable>
+      <Name>VNC_PASSWORD</Name>
+      <Value></Value>
+    </Variable>
+    <Variable>
+      <Name>UMASK</Name>
+      <Value>000</Value>
+    </Variable>
+    <Variable>
+      <Name>PUID</Name>
+      <Value>99</Value>
+    </Variable>
+    <Variable>
+      <Name>PGID</Name>
+      <Value>100</Value>
+    </Variable>
+  </Environment>
+  <Data>
+    <Volume>
+      <HostDir>/mnt/user/appdata/felix-BASE_APPNAME</HostDir>
+      <ContainerDir>/config</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+    <Volume>
+      <HostDir>/mnt/user/appdata/data</HostDir>
+      <ContainerDir>/data</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+  </Data>
+  <WebUI>http://[IP]:[PORT:6080]/vnc.html?resize=remote&amp;host=[IP]&amp;port=[PORT:6080]&amp;autoconnect=1</WebUI>
+  <Banner></Banner>
+  <Icon>BASE_ICON</Icon>
+  <DonateText>If you appreciate my work, then please consider buying me a beer :D</DonateText>
+  <DonateLink>https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MM5E27UX6AUU4</DonateLink>
+  <DonateImg>https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif</DonateImg>
+  <ExtraParams>--security-opt seccomp=unconfined</ExtraParams>
+</Containers>

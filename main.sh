@@ -106,23 +106,23 @@ ICONURL=$(echo "$PKGBUILD" | grep -m1 "url" | sed s/url=// |cut -c2- | rev | cut
 echo "ICONURL=$ICONURL"
 
 curl -o $BUILD_DIR/config/nobody/novnc-16x16.png "$ICONURL"
-echo a
+
 sed -i -e "s/BASE_APPNAME/$TOINSTALL/g" $BUILD_DIR/build/root/install.sh
-echo b
+
 sed -i -e "s/PACMAN_PKG/$PACMAN_PKG/g" $BUILD_DIR/build/root/install.sh
-echo c
+
 sed -i -e "s/YAY_PKG/$YAY_PKG/g" $BUILD_DIR/build/root/install.sh
 # use | as delimeter as EXEC_PATH contains '/'
-echo d
+
 sed -i -e "s|EXEC_PATH|$EXEC_PATH|g" $BUILD_DIR/build/root/install.sh
 NEXTPORT=`expr  $(cat ports) + 1`
 
 # Need to change  base xml to put registry felix/
-echo e
+
 sed -i -e "s/BASE_APPNAME/$TOINSTALL/g" out/$TOINSTALL.xml
-echo f
+
 sed -i -e "s/BASE_PORT/$NEXTPORT/g" out/$TOINSTALL.xml
-echo g
+
 sed -i -e "s|BASE_ICON|$ICONURL|g" out/$TOINSTALL.xml
 # keep track of used docker ports in list and set them accordingly in template file
 

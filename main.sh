@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ ! -d "out" ]; then
+	mkdir out
+fi
+
 checkPackage () {
 TARGET_PACKAGE=$1
 BASE_URL="https://archlinux.org/packages/?sort=&q="

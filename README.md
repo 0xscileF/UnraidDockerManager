@@ -1,7 +1,13 @@
 # UnraidDockerManager
 ### Makes specified Application available as "remoteApp" on Unraid  Host by creating a DockerImage with vnc Acces
 
+# BREAKING 
 
+PKGBUILD with symlinks across multiple lines  cause execPath to be null
+
+Pkg: clion
+
+PkgBUild: https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=clion
 
 #
 Uses PKGBUILD entries to

@@ -3,11 +3,25 @@
 
 # BREAKING 
 
-PKGBUILD with symlinks across multiple lines  cause execPath to be null
+PKGBUILD with symlinks across multiple lines  cause execPath to be null AND _pkgName is introduced... need  to grab that too look if it is referenced somewehere and "expand" it... make 
 
+Concept:
+ EXEC_PATH=$(echo "$PKGBUILD" | egrep -m$count -A$numlines "*ln -s*") ## need -m  count because there are more than one ln -s ?????? otherwise the ends with \ check breaks, right???  how to determine num lines jsut llop through $(echo "$PKGBUILD" | egrep "*ln -s*") ?????
+ while EXECC_PATH |  grep '\\$'; do # spans multiple lines
+  ++$numlines  
+  EXEC_PATH=$(echo "$PKGBUILD" | egrep -A$numlines "*ln -s*")
+ done;
+ 
+ # EXAPTH should be sth  like ln -s "/opt/${pkgbase}/bin/${_pkgname}.sh" \
+             "${pkgdir}/usr/bin/${pkgbase}"
+ Continue normally but xargs it
+ EXEC_PATH=$(echo $EXEC_PATH | xargs)
 Pkg: clion
 
 PkgBUild: https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=clion
+
+
+
 
 #
 Uses PKGBUILD entries to
